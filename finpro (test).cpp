@@ -9,7 +9,7 @@ Final Project Data Structure BC20
 #include <string.h>
 #include <conio.h>
 #include <stdlib.h>
-#include<malloc.h>
+#include <malloc.h>
 
 #define max 15
 
@@ -23,6 +23,7 @@ struct data
 	struct data *right;
 	int lev;
 };
+typedef struct data data;
 
 struct data *root=NULL;
 char name[30];
@@ -288,7 +289,7 @@ void login()
 	if(strcmp(name,"Budianto")==0 || strcmp(name,"budianto")==0 && strcmp(pass,"budi")==0 || strcmp(name,"Bambang")==0 || strcmp(name,"bambang")==0 && strcmp(pass,"bambang")==0 )
 	{
 		menu();
-}
+	}
 	else
 	{
 		printf("\n\nWrong Username or Password\n");
