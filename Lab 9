@@ -1,0 +1,240 @@
+/***********************************************
+Muhammad Irza A.D
+2301946505
+IT23
+Lab 9
+***********************************************/
+
+#include <stdio.h>
+#include <string.h>
+#include <malloc.h>
+#include <stdlib.h>
+#include <conio.h>
+
+
+struct hp
+{
+	char code[10];
+	int price;
+	int lev;
+	struct hp *left;
+	struct hp *right;
+};
+
+
+int max=4;
+//int data = 0;
+hp *root = NULL;
+
+int cek(hp *temp, char code[])
+{
+	if(temp==NULL)
+		return 0;
+	if(strcmp(temp->code, code) == 0)
+		return 1;
+	if(cek(temp->left, code) == 1)
+		return 1;
+	else
+		return cek(temp->right, code);
+}
+
+hp* search(hp* temp, char code[]) {
+    if(temp == NULL || strcmp(temp->code, code)==0)
+        return temp;
+    if(strcmp(temp->code, code) < 0)
+        return search(temp->right, code);
+    return search(temp->left, code);
+}
+
+hp* node(hp* n, int lvl) {
+    n->lev = lvl;
+    printf("\n\n Add New Phone Success ");
+    return n;
+}
+
+hp* insert(hp* temp, hp* b, int level) {
+    if(temp == root && root == NULL) {
+        root = node(b, level);
+        return root;
+    }
+    if(max < level) {
+        printf("\n\n Maximum Tree Level is 4");
+    } 
+	else 
+	{
+        if(temp == NULL) 
+		{
+            return node(b, level);
+        }
+        if(strcmp(temp->code, b->code) > 0)
+            temp->left = insert(temp->left, b, ++level);
+        else if(strcmp(temp->code, b->code) < 0)
+            temp->right = insert(temp->right, b, ++level);
+    }
+    return temp;
+}
+
+
+void add()
+{
+	system("cls");
+	int level = 1;
+	hp *b = (hp*)malloc(sizeof(hp));
+	b->left = NULL;
+	b->right = NULL;
+	do
+	{
+		do
+		{
+			printf("Input Phone Code N[1-9][0-9][0-9][0-9]: ");
+			scanf("%s", b->code);
+		}
+		while(strlen(b->code)!=5 || b->code[0]!='N' || (b->code[1]<'1' || b->code[1]>'9') || (b->code[2]<'0' || b->code[2]>'9') || (b->code[3]<'0' || b->code[3]>'9') || (b->code[4]<'0' || b->code[4]>'9') );
+		if(cek(root,b->code)==1)
+		{
+		    printf("Phone Code Already Exists\n\n");
+		}
+	}
+	while(cek(root,b->code)!=0);
+	do
+	{
+		printf("\nInput Phone Price [$50..$999]: ");
+		scanf("%d", &b->price);
+	}
+	while(b->price<50||b->price>999);
+    insert(root, b, 1);
+    getch();
+    return;
+}
+
+void update()
+{
+	system("cls");
+	if(root==NULL)
+		printf("--- There is No Phone in The Tree ---");
+	else
+	{
+		char code[6];
+		hp *temp = (hp*)malloc(sizeof(hp));
+		do
+		{
+			printf("Input Phone Code N[1-9][0-9][0-9][0-9]: ");
+			scanf("%s", code);
+		}
+		while(strlen(code)!=5 || code[0]!='N' || (code[1]<'1' || code[1]>'9') || (code[2]<'0' || code[2]>'9') || (code[3]<'0' || code[3]>'9') || (code[4]<'0' || code[4]>'9') );
+        if(cek(root,code)==1)
+        {
+            temp = search(root, code);
+            printf("\nPhone Code  : %s\n", temp->code);
+            printf("Phone Price : $ %d\n", temp->price);
+        	do
+			{
+		        printf("\nInput New Phone Price [$50..$999]: $");
+		        scanf("%d", &temp->price);
+        	}
+			while(temp->price<50||temp->price>999);
+        	printf("\n\n\n Update Phone Price Success ");
+    	}
+        else
+            printf("\n\n Phone Code is Not Found \n\n");
+    }
+    getch();
+	return;
+}
+
+void preorder(hp *temp)
+{
+	if(temp!=NULL)
+	{
+		printf("- %s [ $ %d ]\n", temp->code, temp->price);
+		preorder(temp->left);
+		preorder(temp->right);
+	}
+
+}
+
+void inorder(hp *temp)
+{
+	if(temp!=NULL)
+	{
+		inorder(temp->left);
+		printf("- %s [ $ %d ]\n", temp->code, temp->price);
+		inorder(temp->right);
+	}
+
+}
+
+void postorder(hp *temp)
+{
+	if(temp!=NULL)
+	{
+		postorder(temp->left);
+		postorder(temp->right);
+		printf("- %s [ $ %d ]\n", temp->code, temp->price);
+	}
+
+}
+
+void order()
+{
+	system("cls");
+	if(root==NULL)
+		printf("--- There is No Phone in The Tree ---");
+	else
+	{
+		printf("Preorder        : \n");
+		preorder(root);
+		printf("\n\nInorder         : \n");
+		inorder(root);
+		printf("\n\nPostorder       : \n");
+		postorder(root);
+		getch();
+	}
+}
+
+int main()
+{
+	int ans;
+	do
+	{
+		printf("NOKIYEM CELLULAR PHONE\n");
+		printf("----------------------\n\n");
+		printf("1. Add New Phone\n");
+		printf("2. Update Phone Price\n");
+		printf("3. InOrder, PreOrder, PostOrder\n");
+		printf("4. Exit\n\n");
+		printf(">> Input choice : ");
+		scanf("%d", &ans);
+		switch(ans)
+		{
+			case 1 :
+			{
+				add();
+				system("cls");
+				break;
+			}
+
+			case 2 :
+			{
+				update();
+				system("cls");
+				break;
+			}
+
+			case 3 :
+			{
+				order();
+				system("cls");
+				break;
+			}
+
+			case 4 :
+			{
+				exit(0);
+				break;
+			}
+
+		}
+	}
+	while(ans>0 && ans<5||ans>5);
+}
