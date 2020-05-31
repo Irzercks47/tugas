@@ -16,8 +16,8 @@ Final Project Data Structure BC20
 struct data
 {
 	char nama[30];
-	int ipa;
-	int ips;
+	float ipa;
+	float ips;
 	float rata;
 	struct data *left;
 	struct data *right;
@@ -53,38 +53,43 @@ int cek(data *ptr, char nama[])
 		return cek(ptr->right, nama);
 }
 
+//fungsi search
+data* search(data* ptr, char nama[]) {
+    if(ptr == NULL || strcmp(ptr->nama, nama)==0)
+        return ptr;
+    if(strcmp(ptr->nama, nama) < 0)
+        return search(ptr->right, nama);
+    return search(ptr->left, nama);
+}
+
 //node dan pengecekan limit
-data* node(data* b, int lev) {
-    b->lev = lev;
+data* node(data* n, int lvl) {
+    n->lev = lvl;
     printf("\n\n--- Penambahan data sukses ---");
-    return b;
+    return n;
 }
 
 //fungsi insert
-data* insert(data* ptr, data* b, int lvl){
-	
-	if(ptr == root && root == NULL) 
-	{
-        root = node(b,lvl);
+data* insert(data* ptr, data* b, int level) {
+    if(ptr == root && root == NULL) {
+        root = node(b, level);
         return root;
     }
-    if(lvl>max) 
-	{
+    if(max < level) {
         printf("\n\n--- Data sudah penuh ---");
     } 
 	else 
 	{
         if(ptr == NULL) 
 		{
-            return node(b, lvl);
+            return node(b, level);
         }
         if(strcmp(ptr->nama, b->nama) > 0)
-            ptr->left = insert(ptr->left, b, ++lvl);
+            ptr->left = insert(ptr->left, b, ++level);
         else if(strcmp(ptr->nama, b->nama) < 0)
-            ptr->right = insert(ptr->right, b, ++lvl);
+            ptr->right = insert(ptr->right, b, ++level);
     }
     return ptr;
-	
 }
 
 //fungsi Inorder
@@ -93,29 +98,20 @@ void inorder(data *ptr)
 	if(ptr!=NULL)
 	{
 		inorder(ptr->left);
-		printf("%-5s	|%-5d	|%-5d	|%-5f\n", ptr->nama, ptr->ipa, ptr->ips, ptr->rata);
+		printf("%-5s	|%2.2f	|%2.2f	|%2.2f\n", ptr->nama, ptr->ipa, ptr->ips, ptr->rata);
 		inorder(ptr->right);
 	}
 }
 
-//fungsi search
-data* search(data* ptr, char nama[]) {
-    if(ptr == NULL || strcmp(ptr->nama, nama)==0)
-    {
-    	return ptr;
-	} 
-    if(strcmp(ptr->nama, nama) < 0)
-        return search(ptr->right, nama);
-    return search(ptr->left, nama);
-}
-    
 //fungsi add
 void add()
 {
 	clrscr();
 	ff();
-	int lvl=1;
+	int level=1;
 	data *b=(data*)malloc(sizeof(data));
+	b->left = NULL;
+	b->right = NULL;
 	do
 	{
 		do
@@ -132,18 +128,17 @@ void add()
 	do
 	{
 		printf("Masukkan Nilai IPA: ");
-		scanf("%d",&b->ipa);
+		scanf("%f",&b->ipa);
 		ff();
 	}while(b->ipa<0 || b->ipa>100);
 	do
 	{
 		printf("Masukkan Nilai IPS : ");
-		scanf("%d",&b->ips);
+		scanf("%f",&b->ips);
 		ff();
 	}while(b->ips<0 || b->ips>100);
 	b->rata=(b->ipa + b->ips)/2;
-	printf("Nilai Rata-Rata Siswa: %f",b->rata);
-	ff();
+	printf("Nilai Rata-Rata Siswa: %2.2f",b->rata);
 	insert(root,b,1);
 	getch();
 }
@@ -171,25 +166,25 @@ void update()
         {
             ptr = search(root, nama);
             printf("\nNama  : %s\n", ptr->nama);
-            printf("Nilai IPA :  %d\n", ptr->ipa);
-            printf("Nilai IPS :  %d\n", ptr->ips);
+            printf("Nilai IPA :  %f\n", ptr->ipa);
+            printf("Nilai IPS :  %f\n", ptr->ips);
             printf("Nilai Rata-Rata :  %f\n", ptr->rata);
         	do
 			{
 		        printf("Masukkan Nilai IPA : \n");
-		        scanf("%d", &ptr->ipa);
+		        scanf("%f", &ptr->ipa);
 		        ff();
         	}
 			while(ptr->ipa<0||ptr->ipa>100);
 			do
 			{
 		        printf("Masukkan Nilai IPS : \n");
-		        scanf("%d", &ptr->ips);
+		        scanf("%f", &ptr->ips);
 		        ff();
         	}
 			while(ptr->ips<0||ptr->ips>100);
 		    ptr->rata=(ptr->ipa + ptr->ips)/2;
-		    printf("Nilai Rata-Rata Baru: %f",ptr->rata);
+		    printf("Nilai Rata-Rata Baru: %2.2f",ptr->rata);
         	printf("\n\n\n--- Update Data Berhasil ---");
     	}
         else
@@ -204,7 +199,7 @@ void print()
 {
 	clrscr();
 	ff();
-	if(name=="Budianto")
+	if(name=="Budianto"||"budianto")
 	{
 		printf("Nama Guru : Budianto\n");
 		printf("Nomer Induk: N1234\n\n");
@@ -219,6 +214,7 @@ void print()
 	printf("---------------------------------------------------------------------\n");
 	inorder(root);
 	printf("---------------------------------------------------------------------\n");
+	getch();
 }
 
 
