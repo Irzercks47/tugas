@@ -98,7 +98,7 @@ void inorder(data *ptr)
 	if(ptr!=NULL)
 	{
 		inorder(ptr->left);
-		printf("%-5s	|%2.2f	|%2.2f	|%2.2f\n", ptr->nama, ptr->ipa, ptr->ips, ptr->rata);
+		printf("%-5s	|%10.2f	|%10.2f	|%10.2f     |\n", ptr->nama, ptr->ipa, ptr->ips, ptr->rata);
 		inorder(ptr->right);
 	}
 }
@@ -189,6 +189,7 @@ void update()
     	}
         else
             printf("\n\n--- Nama tidak ditemukan ---\n\n");
+            getch();
     }
 	return;
 }
@@ -209,12 +210,21 @@ void print()
 		printf("Nama Guru : Bambang\n");
 		printf("Nomer Induk: N2345\n\n");
 	}
+	if(root==NULL)
+	{
+		printf("There Are no Data to Be Displayed");
+		getch();
+	}
+	else
+	{
 	printf("---------------------------------------------------------------------\n");
 	printf("Nama	|Nilai IPA	|Nilai IPS	|Nilai Rata-rata|\n");
 	printf("---------------------------------------------------------------------\n");
 	inorder(root);
 	printf("---------------------------------------------------------------------\n");
 	getch();
+	}
+	
 }
 
 
