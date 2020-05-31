@@ -11,7 +11,7 @@ Final Project Data Structure BC20
 #include <stdlib.h>
 #include<malloc.h>
 
-#define max 10
+#define max 15
 
 struct data
 {
@@ -58,6 +58,7 @@ data* node(data* b, int lev) {
     printf("\n\n--- Penambahan data sukses ---");
     return b;
 }
+
 //fungsi insert
 data* insert(data* ptr, data* b, int lvl){
 	
@@ -130,22 +131,20 @@ void add()
 	do
 	{
 		printf("Masukkan Nilai IPA: ");
-		scanf("%d",b->ipa);
+		scanf("%d",&b->ipa);
 		ff();
-	}while(b->ipa<0 || b->ipa>101);
+	}while(b->ipa<0 || b->ipa>100);
 	do
 	{
 		printf("Masukkan Nilai IPS : ");
-		scanf("%d",b->ips);
+		scanf("%d",&b->ips);
 		ff();
-	}while(b->ips<0 || b->ips>101);
-	do
-	{
-		printf("Masukkan Nilai rata-rata : ");
-		scanf("%f",b->rata);
-		ff();
-	}while(b->rata<0 || b->rata>101);
+	}while(b->ips<0 || b->ips>100);
+	b->rata=(b->ipa + b->ips)/2;
+	printf("Nilai Rata-Rata Siswa: %f",b->rata);
+	ff();
 	insert(root,b,1);
+	getch();
 }
 
 //update
@@ -176,22 +175,20 @@ void update()
             printf("Nilai Rata-Rata :  %f\n", ptr->rata);
         	do
 			{
-		        printf("\nMasukkan Nilai IPA : ");
+		        printf("Masukkan Nilai IPA : \n");
 		        scanf("%d", &ptr->ipa);
+		        ff();
         	}
 			while(ptr->ipa<0||ptr->ipa>100);
 			do
 			{
-		        printf("\nMasukkan Nilai IPS : ");
+		        printf("Masukkan Nilai IPS : \n");
 		        scanf("%d", &ptr->ips);
+		        ff();
         	}
 			while(ptr->ips<0||ptr->ips>100);
-			do
-			{
-		        printf("\nMasukkan Nilai Rata-rata : ");
-		        scanf("%f", &ptr->rata);
-        	}
-			while(ptr->rata<0||ptr->rata>100);
+		    ptr->rata=(ptr->ipa + ptr->ips)/2;
+		    printf("Nilai Rata-Rata Baru: %f",ptr->rata);
         	printf("\n\n\n--- Update Data Berhasil ---");
     	}
         else
@@ -232,7 +229,7 @@ void menu()
 	do
 	{
 		printf("Main Menu\n");
-		printf("++++++++++++++++++++++++++++\n\n");
+		printf("++++++++++++++++\n\n");
 		printf("1.Masukkan Data\n");
 		printf("2.Update Data\n");
 		printf("3.Print Data\n");
@@ -273,35 +270,35 @@ void login()
 	char pass[15];
 	char rep;
 	printf("LOGIN PAGE\n");
-	printf("++++++++++++++++++++++++++\n\n");
+	printf("++++++++++++++++++++\n\n");
 	do
 	{
 		printf("Masukkan Nama: ");
 		gets(name);
-		fflush(stdin);
+		ff();
 	}while(strlen(name)<0 || strlen(name)>30);
 	
 	do
 	{
-		printf("\nMasukkan Password: ");
+		printf("Masukkan Password: ");
 		gets(pass);
-		fflush(stdin);	
+		ff();	
 	}while(strlen(pass)<0 || strlen(pass)>12);
 	
-	if(strcmp(name,"Budianto")==0 && strcmp(pass,"budi")==0 || strcmp(name,"Bambang")==0 && strcmp(pass,"bambang")==0||strcmp(name,"bambang")==0 || strcmp(name,"budianto")==0)
+	if(strcmp(name,"Budianto")==0 || strcmp(name,"budianto")==0 && strcmp(pass,"budi")==0 || strcmp(name,"Bambang")==0 || strcmp(name,"bambang")==0 && strcmp(pass,"bambang")==0 )
 	{
 		menu();
 }
 	else
 	{
-		printf("Wrong Username or Password\n");
+		printf("\n\nWrong Username or Password\n");
         printf("Masukkan Ulang? [y/n] ");
         rep = getch();
         ff();
         while(rep == 'y')
         {
             clrscr();
-            fflush(stdin);
+            ff();
             login();
         }
         if(rep == 'n')
