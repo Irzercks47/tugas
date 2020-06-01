@@ -1,6 +1,6 @@
 /*********************************************************
 Muhammad Irza A.D (2301946505)
-Aria
+Aria Rifqi (2301949091)
 IT23
 Binary Search Tree
 Final Project Data Structure BC20
@@ -16,6 +16,8 @@ Final Project Data Structure BC20
 struct data
 {
 	char nama[30];
+	char user[30];
+	char pass[30];
 	float ipa;
 	float ips;
 	float rata;
@@ -26,7 +28,6 @@ struct data
 typedef struct data data;
 
 struct data *root=NULL;
-char name[30];
 
 //fungsi fflush
 void ff()
@@ -152,7 +153,11 @@ void update()
 	clrscr();
 	ff();
 	if(root==NULL)
+	{
 		printf("--- Tidak ada data ---");
+		getch();
+	}
+		
 	else
 	{
 		data *ptr = (data*)malloc(sizeof(data));
@@ -166,13 +171,13 @@ void update()
         {
             ptr = search(root, nama);
             printf("\nNama  : %s\n", ptr->nama);
-            printf("Nilai IPA :  %f\n", ptr->ipa);
-            printf("Nilai IPS :  %f\n", ptr->ips);
-            printf("Nilai Rata-Rata :  %f\n", ptr->rata);
+            printf("Nilai IPA :  %2.2f\n", ptr->ipa);
+            printf("Nilai IPS :  %2.2f\n", ptr->ips);
+            printf("Nilai Rata-Rata :  %2.2f\n", ptr->rata);
         	do
 			{
 		        printf("Masukkan Nilai IPA : \n");
-		        scanf("%f", &ptr->ipa);
+		        scanf("%2.2f", &ptr->ipa);
 		        ff();
         	}
 			while(ptr->ipa<0||ptr->ipa>100);
@@ -196,20 +201,15 @@ void update()
 
 
 //fungsi print
-void print()
+void print(char *name)
 {
+
 	clrscr();
 	ff();
-	if(name=="Budianto"||"budianto")
-	{
-		printf("Nama Guru : Budianto\n");
-		printf("Nomer Induk: N1234\n\n");
-	}
-	else
-	{
-		printf("Nama Guru : Bambang\n");
-		printf("Nomer Induk: N2345\n\n");
-	}
+	printf("==========================================\n");
+	printf("||	Nama Guru: %s		||\n", name);
+	printf("==========================================\n");
+
 	if(root==NULL)
 	{
 		printf("There Are no Data to Be Displayed");
@@ -217,19 +217,19 @@ void print()
 	}
 	else
 	{
-	printf("---------------------------------------------------------------------\n");
+	printf("---------------------------------------------------------\n");
 	printf("Nama	|Nilai IPA	|Nilai IPS	|Nilai Rata-rata|\n");
-	printf("---------------------------------------------------------------------\n");
+	printf("---------------------------------------------------------\n");
 	inorder(root);
-	printf("---------------------------------------------------------------------\n");
+	printf("---------------------------------------------------------\n");
 	getch();
 	}
-	
+
 }
 
 
 //fungsi main menu
-void menu()
+void menu(char *name)
 {
 	clrscr();
 	int ans;
@@ -257,7 +257,7 @@ void menu()
 			break;
 			
 			case 3:
-			print();
+			print(name);
 			clrscr();
 			break;
 			
@@ -272,6 +272,8 @@ void menu()
 //login
 void login()
 {
+	char name[30];
+
 	clrscr();
 	ff();
 	char pass[15];
@@ -282,6 +284,7 @@ void login()
 	{
 		printf("Masukkan Nama: ");
 		gets(name);
+		
 		ff();
 	}while(strlen(name)<0 || strlen(name)>30);
 	
@@ -294,7 +297,7 @@ void login()
 	
 	if(strcmp(name,"Budianto")==0 || strcmp(name,"budianto")==0 && strcmp(pass,"budi")==0 || strcmp(name,"Bambang")==0 || strcmp(name,"bambang")==0 && strcmp(pass,"bambang")==0 )
 	{
-		menu();
+		menu(name);
 	}
 	else
 	{
